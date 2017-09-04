@@ -117,8 +117,8 @@
     },
     "17.3B": {
       "nome": "ocorencias",
-      "posicao_inicio": -231,
-      "posicao_fim": -240,
+      "posicao_inicio": 231,
+      "posicao_fim": 240,
       "formato": "alfa",
       "default": ""
     }

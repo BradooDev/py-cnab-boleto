@@ -4,6 +4,8 @@ import codecs
 import importlib
 from datetime import datetime
 from cnab240 import errors
+from decimal import Decimal
+
 
 
 class Evento(object):
@@ -223,6 +225,7 @@ class Arquivo(object):
         codigo_evento = 1
         evento = Evento(self.banco, codigo_evento)
 
+
         seg_p = self.banco.registros.SegmentoP(**kwargs)
         evento.adicionar_segmento(seg_p)
 
@@ -248,6 +251,38 @@ class Arquivo(object):
 
             if "controlecob_data_gravacao" not in dir(header):
                 header.controlecob_data_gravacao = self.header.arquivo_data_de_geracao
+
+        lote_cobranca.adicionar_evento(evento)
+        # Incrementar numero de registros no trailer do arquivo
+        self.trailer.totais_quantidade_registros += len(evento)
+
+    def incluir_pagamento_itau(self, header, **kwargs):
+        # 20 eh o codigo de pagamento
+        codigo_evento = 20
+        evento = Evento(self.banco, codigo_evento)
+
+        seg_a = self.banco.registros.SegmentoA(**kwargs)
+        evento.adicionar_segmento(seg_a)
+
+        # seg_b = self.banco.registros.SegmentoB(**kwargs)
+        # evento.adicionar_segmento(seg_b)
+
+        # seg_c = self.banco.registros.SegmentoC(**kwargs)
+        # evento.adicionar_segmento(seg_c)
+
+        # seg_z = self.banco.registros.SegmentoZ(**kwargs)
+        # evento.adicionar_segmento(seg_z)
+
+        # seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
+        # evento.adicionar_segmento(seg_anf)
+
+        lote_cobranca = self.encontrar_lote_pag(codigo_evento)
+
+        if lote_cobranca is None:
+            header = self.banco.registros.HeaderLotePagamento(**header)
+            trailer = self.banco.registros.TrailerLotePagamento(**kwargs)
+            lote_cobranca = Lote(self.banco, header, trailer)
+            self.adicionar_lote(lote_cobranca)
 
         lote_cobranca.adicionar_evento(evento)
         # Incrementar numero de registros no trailer do arquivo
