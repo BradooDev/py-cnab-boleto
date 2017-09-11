@@ -258,7 +258,7 @@ class Arquivo(object):
 
     def incluir_pagamento_itau(self, header, **kwargs):
         # 20 eh o codigo de pagamento
-        codigo_evento = kwargs.get('servico_codigo_movimento')
+        codigo_evento = 20
         evento = Evento(self.banco, codigo_evento)
 
         seg_a = self.banco.registros.SegmentoA(**kwargs)
