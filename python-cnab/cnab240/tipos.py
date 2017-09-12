@@ -261,20 +261,25 @@ class Arquivo(object):
         codigo_evento = 20
         evento = Evento(self.banco, codigo_evento)
 
-        seg_a = self.banco.registros.SegmentoA(**kwargs)
-        evento.adicionar_segmento(seg_a)
+        if kwargs['num_nota_fiscal_cnpj']:
+            seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
+            evento.adicionar_segmento(seg_anf)
+        elif kwargs['valor_csll']:
+            seg_c = self.banco.registros.SegmentoC(**kwargs)
+            evento.adicionar_segmento(seg_c)
+            print "____________________ PASSOU2 ____________________________"
+        elif kwargs['autenticacao']:
+            seg_z = self.banco.registros.SegmentoZ(**kwargs)
+            evento.adicionar_segmento(seg_z)
+            print "____________________ PASSOU3 ____________________________"
+        else:
+            seg_a = self.banco.registros.SegmentoA(**kwargs)
+            evento.adicionar_segmento(seg_a)
+            print "____________________ PASSOU4 ____________________________"
+        
 
         # seg_b = self.banco.registros.SegmentoB(**kwargs)
-        # evento.adicionar_segmento(seg_b)
-
-        # seg_c = self.banco.registros.SegmentoC(**kwargs)
-        # evento.adicionar_segmento(seg_c)
-
-        # seg_z = self.banco.registros.SegmentoZ(**kwargs)
-        # evento.adicionar_segmento(seg_z)
-
-        # seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
-        # evento.adicionar_segmento(seg_anf)
+        # evento.adicionar_segmento(seg_b)   
 
         lote_cobranca = self.encontrar_lote_pag(codigo_evento)
 
