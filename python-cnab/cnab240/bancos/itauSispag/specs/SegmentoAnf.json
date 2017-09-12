@@ -99,7 +99,8 @@
       "nome": "valor_pagto",
       "posicao_inicio": 120,
       "posicao_fim": 134,
-      "formato": "num"
+      "formato": "num",
+      "decimais": 2
     },
     "15.3Anf": {
       "nome": "nosso_numero",
