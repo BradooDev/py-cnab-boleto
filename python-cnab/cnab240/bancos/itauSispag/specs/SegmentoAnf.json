@@ -55,7 +55,7 @@
       "formato": "num"
     },
     "08.3Anf": {
-      "nome": "numero_agencia numero_conta",
+      "nome": "numero_agencia_conta",
       "posicao_inicio": 24,
       "posicao_fim": 43,
       "formato": "alfa",
