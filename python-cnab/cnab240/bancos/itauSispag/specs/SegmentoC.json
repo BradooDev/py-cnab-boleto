@@ -33,7 +33,7 @@
       "posicao_inicio": 14,
       "posicao_fim": 14,
       "formato": "alfa",
-      "default": "A"
+      "default": "C"
     },
     "05.3C": {
       "nome": "valor_csll",

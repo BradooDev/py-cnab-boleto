@@ -264,24 +264,16 @@ class Arquivo(object):
         if kwargs['num_nota_fiscal_cnpj']:
             seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
             evento.adicionar_segmento(seg_anf)
-            print "____________________ PASSOU ____________________________"
         elif kwargs['valor_csll']:
             seg_c = self.banco.registros.SegmentoC(**kwargs)
             evento.adicionar_segmento(seg_c)
-            print "____________________ PASSOU2 ____________________________"
         elif kwargs['autenticacao']:
             seg_z = self.banco.registros.SegmentoZ(**kwargs)
             evento.adicionar_segmento(seg_z)
-            print "____________________ PASSOU3 ____________________________"
         else:
             seg_a = self.banco.registros.SegmentoA(**kwargs)
             evento.adicionar_segmento(seg_a)
-            print "____________________ PASSOU4 ____________________________"
-        
-        # seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
-        # evento.adicionar_segmento(seg_anf)
-        # seg_a = self.banco.registros.SegmentoA(**kwargs)
-        # evento.adicionar_segmento(seg_a)
+    
         # seg_b = self.banco.registros.SegmentoB(**kwargs)
         # evento.adicionar_segmento(seg_b)   
 
