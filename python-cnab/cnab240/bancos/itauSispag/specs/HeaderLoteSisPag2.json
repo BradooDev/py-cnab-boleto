@@ -45,7 +45,8 @@
       "nome": "layout_lote",
       "posicao_inicio": 14,
       "posicao_fim": 16,
-      "formato": "num"
+      "formato": "num",
+      "default": 40
     },
     "07.1_2": {
       "nome": "vazio1",

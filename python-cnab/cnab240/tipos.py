@@ -283,7 +283,7 @@ class Arquivo(object):
         # evento.adicionar_segmento(seg_b)   
 
         #FIXME
-        # lote_cobranca = self.encontrar_lote_pag(codigo_evento)
+        lote_cobranca = self.encontrar_lote_pag_itau(codigo_evento)
 
         if lote_cobranca is None:
             header = self.banco.registros.HeaderLoteSisPag2(**header)
@@ -338,6 +338,15 @@ class Arquivo(object):
                 return lote
             #
             if lote.header.servico_servico == codigo_servico:
+                return lote
+
+    def encontrar_lote_pag_itau(self, codigo_servico):
+        for lote in self.lotes:
+            # FIXME
+            if codigo_servico == 20:
+                return lote
+            #
+            if lote.header.layout_lote == codigo_servico:
                 return lote
 
     # Implementação para Pag_For
