@@ -265,6 +265,8 @@ class Arquivo(object):
         if kwargs['num_nota_fiscal_cnpj']:
             seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
             evento.adicionar_segmento(seg_anf)
+            seg_b = self.banco.registros.SegmentoB(**kwargs)
+            evento.adicionar_segmento(seg_b)
         elif kwargs['valor_csll']:
             seg_c = self.banco.registros.SegmentoC(**kwargs)
             evento.adicionar_segmento(seg_c)
@@ -274,11 +276,14 @@ class Arquivo(object):
         else:
             seg_a = self.banco.registros.SegmentoA(**kwargs)
             evento.adicionar_segmento(seg_a)
+            seg_b = self.banco.registros.SegmentoB(**kwargs)
+            evento.adicionar_segmento(seg_b)
     
         # seg_b = self.banco.registros.SegmentoB(**kwargs)
         # evento.adicionar_segmento(seg_b)   
 
-        lote_cobranca = self.encontrar_lote_pag(codigo_evento)
+        #FIXME
+        # lote_cobranca = self.encontrar_lote_pag(codigo_evento)
 
         if lote_cobranca is None:
             header = self.banco.registros.HeaderLoteSisPag2(**header)
