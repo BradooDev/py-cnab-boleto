@@ -258,7 +258,8 @@ class Arquivo(object):
 
     def incluir_pagamento_itau(self, header, **kwargs):
         # 20 eh o codigo de pagamento
-        codigo_evento = 20
+        # codigo_evento = 20
+        codigo_evento = kwargs['servico_codigo_movimento']
         evento = Evento(self.banco, codigo_evento)
 
         if kwargs['num_nota_fiscal_cnpj']:
@@ -280,7 +281,7 @@ class Arquivo(object):
         lote_cobranca = self.encontrar_lote_pag(codigo_evento)
 
         if lote_cobranca is None:
-            header = self.banco.registros.HeaderLotePagamento(**header)
+            header = self.banco.registros.HeaderLoteSisPag2(**header)
             trailer = self.banco.registros.TrailerLotePagamento(**kwargs)
             lote_cobranca = Lote(self.banco, header, trailer)
             self.adicionar_lote(lote_cobranca)
