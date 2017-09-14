@@ -47,10 +47,11 @@ class Evento(object):
         for segmento in self._segmentos:
             segmento.controle_lote = valor
 
+    # Ajustado para manter a numeração correta do segmento (que está vindo do odoo)
     def atualizar_codigo_registros(self, last_id):
         current_id = last_id
         for segmento in self._segmentos:
-            current_id += 1
+            # current_id += 1
             segmento.servico_numero_registro = current_id
         return current_id
 
@@ -83,8 +84,12 @@ class Lote(object):
         for evento in self._eventos:
             evento.codigo_lote = self._codigo
 
-    def atualizar_codigo_registros(self):
-        last_id = 0
+    def atualizar_codigo_registros(self, **kwargs):
+        # Adicionado o kwargs como argumento para buscar o numero do registro vindo do odoo
+        if kwargs['servico_numero_registro']:
+            last_id = int(kwargs['servico_numero_registro'])
+        else:
+            last_id = 0
         for evento in self._eventos:
             last_id = evento.atualizar_codigo_registros(last_id)
 
@@ -92,14 +97,15 @@ class Lote(object):
     def eventos(self):
         return self._eventos
 
-    def adicionar_evento(self, evento):
+    def adicionar_evento(self, evento, **kwargs):
+        # Adicionado o kwargs como argumento para buscar o numero do registro vindo do odoo
         if not isinstance(evento, Evento):
             raise TypeError
 
         self._eventos.append(evento)
         if self.trailer != None and hasattr(self.trailer, 'quantidade_registros'):
             self.trailer.quantidade_registros += len(evento)
-        self.atualizar_codigo_registros()
+        self.atualizar_codigo_registros(**kwargs)  # Trecho alterado para receber o nro do registro.
 
         if self._codigo:
             self.atualizar_codigo_eventos()
@@ -291,7 +297,7 @@ class Arquivo(object):
             lote_cobranca = Lote(self.banco, header, trailer)
             self.adicionar_lote(lote_cobranca)
 
-        lote_cobranca.adicionar_evento(evento)
+        lote_cobranca.adicionar_evento(evento, **kwargs)
         # Incrementar numero de registros no trailer do arquivo
         self.trailer.totais_quantidade_registros += len(evento)
 
