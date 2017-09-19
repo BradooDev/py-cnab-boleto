@@ -265,12 +265,13 @@ class Arquivo(object):
         # codigo_evento = kwargs['servico_codigo_movimento']
         evento = Evento(self.banco, codigo_evento)
 
-        # if kwargs['num_nota_fiscal_cnpj']:
-        #     seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
-        #     evento.adicionar_segmento(seg_anf)
-        #     seg_b = self.banco.registros.SegmentoB(**kwargs)
-        #     evento.adicionar_segmento(seg_b)
-        #     codigo_evento = 20
+        if kwargs['num_nota_fiscal_cnpj']:
+            seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
+            evento.adicionar_segmento(seg_anf)
+            seg_anf.servico_segmento = 'A'
+            seg_b = self.banco.registros.SegmentoB(**kwargs)
+            evento.adicionar_segmento(seg_b)
+            seg_b.servico_segmento = 'B'
         # elif kwargs['valor_csll']:
         #     seg_c = self.banco.registros.SegmentoC(**kwargs)
         #     evento.adicionar_segmento(seg_c)
@@ -279,18 +280,13 @@ class Arquivo(object):
         #     seg_z = self.banco.registros.SegmentoZ(**kwargs)
         #     evento.adicionar_segmento(seg_z)
         #     codigo_evento = 20
-        # else:
-        #     seg_a = self.banco.registros.SegmentoA(**kwargs)
-        #     evento.adicionar_segmento(seg_a)
-        #     seg_b = self.banco.registros.SegmentoB(**kwargs)
-        #     evento.adicionar_segmento(seg_b)
-        #     codigo_evento = 20
-        seg_a = self.banco.registros.SegmentoA(**kwargs)
-        seg_a.servico_segmento = 'A'
-        evento.adicionar_segmento(seg_a)
-        seg_b = self.banco.registros.SegmentoB(**kwargs)
-        evento.adicionar_segmento(seg_b)
-        seg_b.servico_segmento = 'B'
+        else:
+            seg_a = self.banco.registros.SegmentoA(**kwargs)
+            seg_a.servico_segmento = 'A'
+            evento.adicionar_segmento(seg_a)
+            seg_b = self.banco.registros.SegmentoB(**kwargs)
+            evento.adicionar_segmento(seg_b)
+            seg_b.servico_segmento = 'B'
 
         #FIXME
         #A operacao abaixo tem que ser trata de forma diferente
