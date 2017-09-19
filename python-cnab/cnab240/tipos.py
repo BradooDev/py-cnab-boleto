@@ -47,12 +47,14 @@ class Evento(object):
         for segmento in self._segmentos:
             segmento.controle_lote = valor
 
-    # Ajustado para manter a numeração correta do segmento (que está vindo do odoo)
     def atualizar_codigo_registros(self, last_id):
         current_id = last_id
         for segmento in self._segmentos:
-            # current_id += 1
-            segmento.servico_numero_registro = current_id
+            if segmento.servico_segmento == 'A':
+                current_id += 1
+                segmento.servico_numero_registro = current_id
+            else:
+                segmento.servico_numero_registro = current_id
         return current_id
 
 
@@ -84,12 +86,8 @@ class Lote(object):
         for evento in self._eventos:
             evento.codigo_lote = self._codigo
 
-    def atualizar_codigo_registros(self, **kwargs):
-        # Adicionado o kwargs como argumento para buscar o numero do registro vindo do odoo
-        if kwargs['servico_numero_registro']:
-            last_id = int(kwargs['servico_numero_registro'])
-        else:
-            last_id = 0
+    def atualizar_codigo_registros(self):
+        last_id = 0
         for evento in self._eventos:
             last_id = evento.atualizar_codigo_registros(last_id)
 
@@ -97,15 +95,14 @@ class Lote(object):
     def eventos(self):
         return self._eventos
 
-    def adicionar_evento(self, evento, **kwargs):
-        # Adicionado o kwargs como argumento para buscar o numero do registro vindo do odoo
+    def adicionar_evento(self, evento):
         if not isinstance(evento, Evento):
             raise TypeError
 
         self._eventos.append(evento)
         if self.trailer != None and hasattr(self.trailer, 'quantidade_registros'):
             self.trailer.quantidade_registros += len(evento)
-        self.atualizar_codigo_registros(**kwargs)  # Trecho alterado para receber o nro do registro.
+        self.atualizar_codigo_registros()
 
         if self._codigo:
             self.atualizar_codigo_eventos()
@@ -264,31 +261,41 @@ class Arquivo(object):
 
     def incluir_pagamento_itau(self, header, **kwargs):
         # 20 eh o codigo de pagamento
-        # codigo_evento = 20
-        codigo_evento = kwargs['servico_codigo_movimento']
+        codigo_evento = 20
+        # codigo_evento = kwargs['servico_codigo_movimento']
         evento = Evento(self.banco, codigo_evento)
 
-        if kwargs['num_nota_fiscal_cnpj']:
-            seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
-            evento.adicionar_segmento(seg_anf)
-            seg_b = self.banco.registros.SegmentoB(**kwargs)
-            evento.adicionar_segmento(seg_b)
-        elif kwargs['valor_csll']:
-            seg_c = self.banco.registros.SegmentoC(**kwargs)
-            evento.adicionar_segmento(seg_c)
-        elif kwargs['autenticacao']:
-            seg_z = self.banco.registros.SegmentoZ(**kwargs)
-            evento.adicionar_segmento(seg_z)
-        else:
-            seg_a = self.banco.registros.SegmentoA(**kwargs)
-            evento.adicionar_segmento(seg_a)
-            seg_b = self.banco.registros.SegmentoB(**kwargs)
-            evento.adicionar_segmento(seg_b)
-    
-        # seg_b = self.banco.registros.SegmentoB(**kwargs)
-        # evento.adicionar_segmento(seg_b)   
+        # if kwargs['num_nota_fiscal_cnpj']:
+        #     seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
+        #     evento.adicionar_segmento(seg_anf)
+        #     seg_b = self.banco.registros.SegmentoB(**kwargs)
+        #     evento.adicionar_segmento(seg_b)
+        #     codigo_evento = 20
+        # elif kwargs['valor_csll']:
+        #     seg_c = self.banco.registros.SegmentoC(**kwargs)
+        #     evento.adicionar_segmento(seg_c)
+        #     codigo_evento = 20
+        # elif kwargs['autenticacao']:
+        #     seg_z = self.banco.registros.SegmentoZ(**kwargs)
+        #     evento.adicionar_segmento(seg_z)
+        #     codigo_evento = 20
+        # else:
+        #     seg_a = self.banco.registros.SegmentoA(**kwargs)
+        #     evento.adicionar_segmento(seg_a)
+        #     seg_b = self.banco.registros.SegmentoB(**kwargs)
+        #     evento.adicionar_segmento(seg_b)
+        #     codigo_evento = 20
+        seg_a = self.banco.registros.SegmentoA(**kwargs)
+        seg_a.servico_segmento = 'A'
+        evento.adicionar_segmento(seg_a)
+        seg_b = self.banco.registros.SegmentoB(**kwargs)
+        evento.adicionar_segmento(seg_b)
+        seg_b.servico_segmento = 'B'
 
         #FIXME
+        #A operacao abaixo tem que ser trata de forma diferente
+        #Quando é um novo lote ela deve retornar None
+        #Desta forma estara resolvido a questao da separacao de lote
         lote_cobranca = self.encontrar_lote_pag_itau(codigo_evento)
 
         if lote_cobranca is None:
@@ -297,7 +304,7 @@ class Arquivo(object):
             lote_cobranca = Lote(self.banco, header, trailer)
             self.adicionar_lote(lote_cobranca)
 
-        lote_cobranca.adicionar_evento(evento, **kwargs)
+        lote_cobranca.adicionar_evento(evento)
         # Incrementar numero de registros no trailer do arquivo
         self.trailer.totais_quantidade_registros += len(evento)
 
@@ -348,10 +355,10 @@ class Arquivo(object):
 
     def encontrar_lote_pag_itau(self, codigo_servico):
         for lote in self.lotes:
-            # FIXME
+            # CORRIGIR AQUI
+            #LAYOUTE_LOTE NAO É A VARIAVEL CORRETA A SER UTILIZADA
             if codigo_servico == 20:
                 return lote
-            #
             if lote.header.layout_lote == codigo_servico:
                 return lote
 
