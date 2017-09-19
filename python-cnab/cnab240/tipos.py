@@ -300,6 +300,9 @@ class Arquivo(object):
             lote_cobranca = Lote(self.banco, header, trailer)
             self.adicionar_lote(lote_cobranca)
 
+        for eventos in evento._segmentos:
+            eventos.servico_codigo_movimento = kwargs['servico_codigo_movimento']
+
         lote_cobranca.adicionar_evento(evento)
         # Incrementar numero de registros no trailer do arquivo
         self.trailer.totais_quantidade_registros += len(evento)
