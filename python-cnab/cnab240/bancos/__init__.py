@@ -2,7 +2,6 @@
 import os
 import importlib
 
-
 from cnab240.registro import Registros
 
 
