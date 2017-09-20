@@ -1,7 +1,6 @@
 
 import os
 import json
-import unicodedata
 
 from glob import iglob
 from decimal import Decimal, InvalidOperation
@@ -27,34 +26,36 @@ class CampoBase(object):
 
         if self.formato == 'alfa':
             if not isinstance(valor, basestring):
-                print "{0} - {1}".format(self.nome, valor)
+                print "{0} - {1}".format(self.nome, self.valor)
                 raise errors.TipoError(self, valor)
             if len(valor) > self.digitos:
-                print u"truncating - {0}".format(self.nome)
+                print "{0} - {1}".format(self.nome, self.valor)
+                # raise errors.NumDigitosExcedidoError(self, valor)
                 # reduz o len(valor)
                 cortar = len(valor) - self.digitos
                 valor = valor[:-(cortar)]
 
+
         elif self.decimais:
             if not isinstance(valor, Decimal):
-                print u"{0} - {1}".format(self.nome, valor)
+                print "{0} - {1}".format(self.nome, self.valor)
                 raise errors.TipoError(self, valor)
 
             num_decimais = valor.as_tuple().exponent * -1
             if num_decimais != self.decimais:
-                print u"{0} - {1}".format(self.nome, valor)
+                print "{0} - {1}".format(self.nome, self.valor)
                 raise errors.NumDecimaisError(self, valor)
 
             if len(str(valor).replace('.', '')) > self.digitos:
-                print u"{0} - {1}".format(self.nome, valor)
+                print "{0} - {1}".format(self.nome, self.valor)
                 raise errors.NumDigitosExcedidoError(self, valor)
 
         else:
             if not isinstance(valor, (int, long)):
-                print u"{0} - {1}".format(self.nome, valor)
+                print "{0} - {1}".format(self.nome, self.valor)
                 raise errors.TipoError(self, valor)
             if len(str(valor)) > self.digitos:
-                print u"{0} - {1}".format(self.nome, valor)
+                print "{0} - {1}".format(self.nome, self.valor)
                 raise errors.NumDigitosExcedidoError(self, valor)
 
         self._valor = valor
@@ -80,14 +81,13 @@ class CampoBase(object):
 
         if self.formato == 'alfa' or self.decimais:
             if self.decimais:
+            # if self.formato == 'num':
                 valor = unicode(self.valor).replace('.', '')
                 chars_faltantes = self.digitos - len(valor)
                 return (u'0' * chars_faltantes) + valor
             else:
-                valor = unicodedata.normalize('NFKD', unicode(self.valor))
-                valor = valor.encode('ascii', 'ignore')
-                chars_faltantes = self.digitos - len(valor)
-                return valor + (u' ' * chars_faltantes)
+                chars_faltantes = self.digitos - len(self.valor)
+                return self.valor + (u' ' * chars_faltantes)
 
         return u'{0:0{1}d}'.format(self.valor, self.digitos)
 

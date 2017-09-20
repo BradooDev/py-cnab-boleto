@@ -6,7 +6,7 @@
       "posicao_inicio": 1,
       "posicao_fim": 3,
       "formato": "num",
-      "default": 1
+      "default": 104
     },
 
     "02.3U": {
@@ -133,54 +133,81 @@
     },
 
     "18.3U": {
-      "nome": "ocorr_pag_cod",
+      "nome": "numero_banco_sacados",
       "posicao_inicio": 154,
-      "posicao_fim": 157,
+      "posicao_fim": 156,
       "formato": "num"
     },
 
     "19.3U": {
-      "nome": "ocorr_pag_data",
-      "posicao_inicio": 158,
-      "posicao_fim": 165,
+      "nome": "nome_banco_sacados",
+      "posicao_inicio": 157,
+      "posicao_fim": 176,
       "formato": "alfa"
     },
 
     "20.3U": {
-      "nome": "ocorr_pag_valor",
-      "posicao_inicio": 166,
-      "posicao_fim": 180,
-      "formato": "num",
-      "decimais": 2
+      "nome": "ajuste_vencimento",
+      "posicao_inicio": 177,
+      "posicao_fim": 177,
+      "formato": "alfa"
     },
 
     "21.3U": {
-      "nome": "ocorr_pag_compl",
-      "posicao_inicio": 181,
-      "posicao_fim": 210,
+      "nome": "ajuste_emissao",
+      "posicao_inicio": 178,
+      "posicao_fim": 178,
       "formato": "alfa"
     },
 
     "22.3U": {
-      "nome": "cod_bco_ocorr",
-      "posicao_inicio": 211,
-      "posicao_fim": 213,
-      "formato": "num"
+      "nome": "id_mod_bloqueto",
+      "posicao_inicio": 179,
+      "posicao_fim": 180,
+      "formato": "alfa"
     },
 
     "23.3U": {
-      "nome": "nosso_num_bco_corr",
-      "posicao_inicio": 214,
-      "posicao_fim": 233,
+      "nome": "id_viaEntrega",
+      "posicao_inicio": 181,
+      "posicao_fim": 181,
       "formato": "alfa"
     },
 
     "24.3U": {
-      "nome": "febraban_cnab24d3U",
-      "posicao_inicio": 234,
-      "posicao_fim": 240,
+      "nome": "especie_titulo",
+      "posicao_inicio": 182,
+      "posicao_fim": 183,
+      "formato": "alfa"
+    },
+
+    "25.3U": {
+      "nome": "id_aceite",
+      "posicao_inicio": 184,
+      "posicao_fim": 184,
+      "formato": "alfa"
+    },
+
+    "26.3U": {
+      "nome": "codigo_sacado_noBanco",
+      "posicao_inicio": 185,
+      "posicao_fim": 199,
+      "formato": "alfa"
+    },
+
+    "27.3U": {
+      "nome": "caixa_exclusivo",
+      "posicao_inicio": 200,
+      "posicao_fim": 210,
       "formato": "alfa",
       "default": ""
+    },
+
+    "28.3U": {
+      "nome": "cnab_exclusivo_campo28dot3U",
+      "posicao_inicio": 211,
+      "posicao_fim": 240,
+      "formato": "alfa"
     }
 
   }

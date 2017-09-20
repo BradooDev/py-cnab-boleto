@@ -84,6 +84,7 @@
       "formato": "alfa"
     },
 
+
     "12.1": {
       "nome": "cedente_agencia",
       "posicao_inicio": 54,
@@ -109,14 +110,15 @@
       "nome": "cedente_conta_dv",
       "posicao_inicio": 72,
       "posicao_fim": 72,
-      "formato": "alfa"
+      "formato": "num"
     },
 
     "16.1": {
-      "nome": "dv_agencia_conta",
+      "nome": "cedente_caixa_exclusivo_campo16dot1M",
       "posicao_inicio": 73,
       "posicao_fim": 73,
-      "formato": "alfa"
+      "formato": "num",
+      "default": 0
     },
 
     "17.1": {

@@ -143,13 +143,11 @@ class Arquivo(object):
         self.trailer.totais_quantidade_lotes = 0
         self.trailer.totais_quantidade_registros = 2
 
-        if "arquivo_data_de_geracao" in dir(self.header) and \
-           self.header.arquivo_data_de_geracao is None:
+        if self.header.arquivo_data_de_geracao is None:
             now = datetime.now()
             self.header.arquivo_data_de_geracao = int(now.strftime("%d%m%Y"))
 
-        if "arquivo_hora_de_geracao" in dir(self.header) and \
-           self.header.arquivo_hora_de_geracao is None:
+        if self.header.arquivo_hora_de_geracao is None:
             if now is None:
                 now = datetime.now()
             self.header.arquivo_hora_de_geracao = int(now.strftime("%H%M%S"))
@@ -227,7 +225,6 @@ class Arquivo(object):
         # 1 eh o codigo de cobranca
         codigo_evento = 1
         evento = Evento(self.banco, codigo_evento)
-
 
         seg_p = self.banco.registros.SegmentoP(**kwargs)
         evento.adicionar_segmento(seg_p)
@@ -319,7 +316,7 @@ class Arquivo(object):
         self._lotes.append(lote)
         lote.codigo = len(self._lotes)
 
-        if self.trailer is not None:
+        if self.trailer != None:
             if hasattr(self.trailer, 'totais_quantidade_lotes'):
                 # Incrementar numero de lotes no trailer do arquivo
                 self.trailer.totais_quantidade_lotes += 1
@@ -373,10 +370,20 @@ class Arquivo(object):
         lote_pag = self.encontrar_lote_pag(codigo_evento)
 
         if lote_pag is None:
+            # header = self.banco.registros.HeaderLoteCobranca(**self.header.todict())
+            # trailer = self.banco.registros.TrailerLoteCobranca()
             header = None
             trailer = None
             lote_pag = Lote(self.banco, header, trailer)
             self.adicionar_lote(lote_pag)
+
+            # if header.controlecob_numero is None:
+            #     header.controlecob_numero = int('{0}{1:02}'.format(
+            #         self.header.arquivo_sequencia,
+            #         lote_pag.codigo))
+
+            # if header.controlecob_data_gravacao is None:
+            #     header.controlecob_data_gravacao = self.header.arquivo_data_de_geracao
 
         lote_pag.adicionar_evento(evento)
         # Incrementar numero de registros no trailer do arquivo
@@ -397,9 +404,17 @@ class ArquivoCobranca400(object):
         self.header = self.banco.registros.HeaderArquivo(**kwargs)
         self.trailer = self.banco.registros.TrailerArquivo(**kwargs)
 
+        # self.trailer.totais_quantidade_lotes = 0
+        # self.trailer.totais_quantidade_registros = 2
+
         if self.header.arquivo_data_de_geracao is None:
             now = datetime.now()
             self.header.arquivo_data_de_geracao = int(now.strftime("%d%m%Y"))
+
+        # if self.header.arquivo_hora_de_geracao is None:
+        #     if now is None:
+        #         now = datetime.now()
+        #     self.header.arquivo_hora_de_geracao = int(now.strftime("%H%M%S"))
 
     def carregar_retorno(self, arquivo):
 
@@ -415,6 +430,16 @@ class ArquivoCobranca400(object):
                 lote_aberto = Lote(self.banco)
                 self._lotes.append(lote_aberto)
 
+            # elif tipo_registro == '1':
+            #     codigo_servico = linha[9:11]
+            #
+            #     if codigo_servico == '01':
+            #         header_lote = self.banco.registros.HeaderLoteCobranca()
+            #         header_lote.carregar(linha)
+            #         trailer_lote = self.banco.registros.TrailerLoteCobranca()
+            #         lote_aberto = Lote(self.banco, header_lote, trailer_lote)
+            #         self._lotes.append(lote_aberto)
+
             elif tipo_registro == '1':
                 tipo_segmento = linha[0]
                 # codigo_evento = linha[15:17]
@@ -428,6 +453,12 @@ class ArquivoCobranca400(object):
                     evento_aberto._segmentos.append(trans_tipo1)
 
                     evento_aberto = None
+
+            # elif tipo_registro == '5':
+            #     if trailer_lote is not None:
+            #         lote_aberto.trailer.carregar(linha)
+            #     else:
+            #         raise Exception
 
             elif tipo_registro == '9':
                 self.trailer = self.banco.registros.TrailerArquivo()
@@ -452,6 +483,14 @@ class ArquivoCobranca400(object):
             trailer = None
             lote_cobranca = Lote(self.banco, header, trailer)
             self.adicionar_lote(lote_cobranca)
+
+            # if header.controlecob_numero is None:
+            #     header.controlecob_numero = int('{0}{1:02}'.format(
+            #         self.header.arquivo_sequencia,
+            #         lote_cobranca.codigo))
+
+            # if header.controlecob_data_gravacao is None:
+            #     header.controlecob_data_gravacao = self.header.arquivo_data_de_geracao
 
         lote_cobranca.adicionar_evento(evento)
 

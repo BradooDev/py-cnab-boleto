@@ -74,8 +74,7 @@
       "nome": "cedente_conta",
       "posicao_inicio": 24,
       "posicao_fim": 35,
-      "formato": "num",
-      "default": 1
+      "formato": "num"
     },
 
     "11.3P": {
@@ -129,7 +128,7 @@
       "posicao_inicio": 61,
       "posicao_fim": 61,
       "formato": "num",
-      "default": 4
+      "default": 1
     },
 
     "18.3P": {
@@ -137,14 +136,22 @@
       "posicao_inicio": 62,
       "posicao_fim": 62,
       "formato": "alfa",
-      "default": "2"
+      "default": ""
     },
 
     "19.3P": {
       "nome": "numero_documento",
       "posicao_inicio": 63,
-      "posicao_fim": 77,
+      "posicao_fim": 73,
       "formato": "alfa"
+    },
+
+    "19.3.2P": {
+      "nome": "vazio7",
+      "posicao_inicio": 74,
+      "posicao_fim": 77,
+      "formato": "alfa",
+      "default": ""
     },
 
     "20.3P": {

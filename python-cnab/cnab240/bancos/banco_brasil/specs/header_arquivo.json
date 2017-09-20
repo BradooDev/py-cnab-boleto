@@ -79,14 +79,14 @@
 			"nome": "cedente_conta_dv",
 			"posicao_inicio": 71,
 			"posicao_fim": 71,
-			"formato": "alfa"
+			"formato": "num"
 		},
 
 		"12.0": {
 			"nome": "dv_agencia_conta",
 			"posicao_inicio": 72,
 			"posicao_fim": 72,
-			"formato": "alfa"
+			"formato": "num"
 		},
 
 		"13.0": {
@@ -100,8 +100,7 @@
 			"nome": "nome_do_banco",
 			"posicao_inicio": 103,
 			"posicao_fim": 132,
-			"formato": "alfa",
-            "default": "BANCO DO BRASIL SA"
+			"formato": "alfa"
 		},
 
 		"15.0": {
@@ -146,7 +145,7 @@
 			"posicao_inicio": 164,
 			"posicao_fim": 166,
 			"formato": "num",
-			"default": 0
+			"default": 83
 		},
 
 		"21.0": {
