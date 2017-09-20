@@ -4,8 +4,6 @@ import codecs
 import importlib
 from datetime import datetime
 from cnab240 import errors
-from decimal import Decimal
-
 
 
 class Evento(object):
@@ -227,7 +225,6 @@ class Arquivo(object):
         # 1 eh o codigo de cobranca
         codigo_evento = 1
         evento = Evento(self.banco, codigo_evento)
-
 
         seg_p = self.banco.registros.SegmentoP(**kwargs)
         evento.adicionar_segmento(seg_p)
