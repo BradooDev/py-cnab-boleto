@@ -13,7 +13,7 @@
       "posicao_inicio": 4,
       "posicao_fim": 7,
       "formato": "num",
-      "default": 0
+      "default": 1
     },
     "02.1_2": {
       "nome": "tipo_registro",
