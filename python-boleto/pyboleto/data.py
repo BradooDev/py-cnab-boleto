@@ -262,7 +262,6 @@ class BoletoData(object):
             do `numero_documento` e às vezes contém outros campos
             juntos.
         """
-        self.nosso_numero = self.nosso_numero
         return self.nosso_numero
 
     nosso_numero = CustomProperty('nosso_numero', 13)
@@ -423,13 +422,13 @@ class BoletoData(object):
 
     @property
     def agencia_conta_cedente(self):
-
-        return "%s/%s" % (self.agencia_cedente, self.codigo_beneficiario)
+        return "%s/%s" % (self.agencia_cedente, self.conta_cedente)
 
     @property
     def codigo_dv_banco(self):
         cod = "%s-%s" % (self.codigo_banco, self.modulo11(self.codigo_banco))
         return cod
+
     @property
     def linha_digitavel(self):
         """Monta a linha digitável a partir do barcode
@@ -437,11 +436,7 @@ class BoletoData(object):
         Esta é a linha que o cliente pode utilizar para digitar se o código
         de barras não estiver legível.
         """
-
-
         linha = self.barcode
-        
-
         if not linha:
             raise BoletoException(u"Boleto doesn't have a barcode")
 
