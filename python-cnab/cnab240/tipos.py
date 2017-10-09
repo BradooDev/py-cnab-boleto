@@ -266,9 +266,9 @@ class Arquivo(object):
             seg_anf = self.banco.registros.SegmentoAnf(**kwargs)
             evento.adicionar_segmento(seg_anf)
             seg_anf.servico_segmento = 'A'
-            seg_b = self.banco.registros.SegmentoB(**kwargs)
-            evento.adicionar_segmento(seg_b)
-            seg_b.servico_segmento = 'B'
+            # seg_b = self.banco.registros.SegmentoB(**kwargs)
+            # evento.adicionar_segmento(seg_b)
+            # seg_b.servico_segmento = 'B'
         # elif kwargs['valor_csll']:
         #     seg_c = self.banco.registros.SegmentoC(**kwargs)
         #     evento.adicionar_segmento(seg_c)
@@ -281,9 +281,9 @@ class Arquivo(object):
             seg_a = self.banco.registros.SegmentoA(**kwargs)
             seg_a.servico_segmento = 'A'
             evento.adicionar_segmento(seg_a)
-            seg_b = self.banco.registros.SegmentoB(**kwargs)
-            evento.adicionar_segmento(seg_b)
-            seg_b.servico_segmento = 'B'
+            # seg_b = self.banco.registros.SegmentoB(**kwargs)
+            # evento.adicionar_segmento(seg_b)
+            # seg_b.servico_segmento = 'B'
 
         #FIXME
         #A operacao abaixo tem que ser trata de forma diferente
