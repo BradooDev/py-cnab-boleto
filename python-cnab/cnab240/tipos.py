@@ -137,6 +137,8 @@ class Arquivo(object):
             return self.carregar_retorno(arquivo)
 
         self.header = self.banco.registros.HeaderArquivo(**kwargs)
+        # NEW: Adicionado para voltar o Numero do Lote no Trailer do Arquivo
+        kwargs.update({'codigo_lote': 9999})
         self.trailer = self.banco.registros.TrailerArquivo(**kwargs)
         self.trailer.totais_quantidade_lotes = 0
         self.trailer.totais_quantidade_registros = 2
@@ -279,8 +281,12 @@ class Arquivo(object):
         #     codigo_evento = 20
         else:
             seg_a = self.banco.registros.SegmentoA(**kwargs)
+
             seg_a.servico_segmento = 'A'
             evento.adicionar_segmento(seg_a)
+            # NEW: Adicionado nro do lote para o segmento
+            num_lote = kwargs.get('controle_lote')
+            evento._codigo_lote = num_lote
             # seg_b = self.banco.registros.SegmentoB(**kwargs)
             # evento.adicionar_segmento(seg_b)
             # seg_b.servico_segmento = 'B'
@@ -295,7 +301,13 @@ class Arquivo(object):
             header = self.banco.registros.HeaderLoteSisPag2(**header)
             trailer = self.banco.registros.TrailerLotePagamento(**kwargs)
             lote_cobranca = Lote(self.banco, header, trailer)
-            self.adicionar_lote(lote_cobranca)
+            # NEW: Adicionada a validação para o caso de pagamento, onde o numero do lote
+            # é enviado pelo segmento A
+
+            if num_lote:
+                self.adicionar_lote(lote_cobranca, num_lote)
+            else:
+                self.adicionar_lote(lote_cobranca)
 
         for eventos in evento._segmentos:
             eventos.servico_codigo_movimento = kwargs['servico_codigo_movimento']
@@ -309,12 +321,16 @@ class Arquivo(object):
             if lote.header.servico_servico == codigo_servico:
                 return lote
 
-    def adicionar_lote(self, lote):
+    # NEW: Adicionado um argumento na função para incluir nro de Lote
+    def adicionar_lote(self, lote, cod_lote=None):
         if not isinstance(lote, Lote):
             raise TypeError('Objeto deve ser instancia de "Lote"')
 
         self._lotes.append(lote)
-        lote.codigo = len(self._lotes)
+        if cod_lote == None:
+            lote.codigo = len(self._lotes)
+        else:
+            lote.codigo = cod_lote
 
         if self.trailer is not None:
             if hasattr(self.trailer, 'totais_quantidade_lotes'):
