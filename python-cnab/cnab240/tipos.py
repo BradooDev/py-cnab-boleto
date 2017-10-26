@@ -48,7 +48,7 @@ class Evento(object):
     def atualizar_codigo_registros(self, last_id):
         current_id = last_id
         for segmento in self._segmentos:
-            if segmento.servico_segmento == 'A':
+            if segmento.servico_segmento in ('A','J'):
                 current_id += 1
                 segmento.servico_numero_registro = current_id
             else:
@@ -279,9 +279,15 @@ class Arquivo(object):
         #     seg_z = self.banco.registros.SegmentoZ(**kwargs)
         #     evento.adicionar_segmento(seg_z)
         #     codigo_evento = 20
+        # elif kwargs['']
+        elif header['forma_pagamento'] in (30,31):
+            seg_j = self.banco.registros.SegmentoJ(**kwargs)
+            seg_j.servico_segmento = 'J'
+            evento.adicionar_segmento(seg_j)
+            num_lote = kwargs.get('controle_lote')
+            evento._codigo_lote = num_lote
         else:
             seg_a = self.banco.registros.SegmentoA(**kwargs)
-
             seg_a.servico_segmento = 'A'
             evento.adicionar_segmento(seg_a)
             # NEW: Adicionado nro do lote para o segmento
