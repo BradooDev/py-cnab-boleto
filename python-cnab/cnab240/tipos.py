@@ -49,8 +49,13 @@ class Evento(object):
         current_id = last_id
         for segmento in self._segmentos:
             if segmento.servico_segmento in ('A','J'):
-                current_id += 1
-                segmento.servico_numero_registro = current_id
+                # Atualizado o código para que a linha do segmento j52 não aumente o valor
+                # Extender para verificar o Segmento Anf
+                if "J52" in str(type(segmento)):
+                    segmento.servico_numero_registro = current_id
+                else:
+                    current_id += 1
+                    segmento.servico_numero_registro = current_id
             else:
                 segmento.servico_numero_registro = current_id
         return current_id
@@ -286,6 +291,10 @@ class Arquivo(object):
             evento.adicionar_segmento(seg_j)
             num_lote = kwargs.get('controle_lote')
             evento._codigo_lote = num_lote
+            seg_j52 = self.banco.registros.SegmentoJ52(**kwargs)
+            seg_j52.servico_segmento = 'J52'
+            evento.adicionar_segmento(seg_j52)
+
         else:
             seg_a = self.banco.registros.SegmentoA(**kwargs)
             seg_a.servico_segmento = 'A'

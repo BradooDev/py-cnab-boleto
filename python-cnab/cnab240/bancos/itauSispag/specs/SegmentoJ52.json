@@ -1,0 +1,115 @@
+{
+  "nome": "SegmentoJ52",
+  "campos": {
+    "00.3J": {
+      "nome": "controle_banco",
+      "posicao_inicio": 1,
+      "posicao_fim": 3,
+      "formato": "num",
+      "default": 341
+    },
+    "01.3J": {
+      "nome": "controle_lote",
+      "posicao_inicio": 4,
+      "posicao_fim": 7,
+      "formato": "num",
+      "default": 0
+    },
+    "02.3J": {
+      "nome": "controle_registro",
+      "posicao_inicio": 8,
+      "posicao_fim": 8,
+      "formato": "num",
+      "default": 3
+    },
+    "03.3J": {
+      "nome": "servico_numero_registro",
+      "posicao_inicio": 9,
+      "posicao_fim": 13,
+      "formato": "num"
+    },
+    "04.3J": {
+      "nome": "servico_segmento",
+      "posicao_inicio": 14,
+      "posicao_fim": 14,
+      "formato": "alfa",
+      "default": "J"
+    },
+    "05.3J": {
+      "nome": "servico_codigo_movimento",
+      "posicao_inicio": 15,
+      "posicao_fim": 17,
+      "formato": "num"
+    },
+    "06.3J": {
+      "nome": "codigo_registro",
+      "posicao_inicio": 18,
+      "posicao_fim": 19,
+      "formato": "num"
+    },
+    "07.3J": {
+      "nome": "tipo_inscricao_pagador",
+      "posicao_inicio": 20,
+      "posicao_fim": 20,
+      "formato": "num"
+    },
+    "08.3J": {
+      "nome": "inscricao_pagador",
+      "posicao_inicio": 21,
+      "posicao_fim": 35,
+      "formato": "num"
+    },
+    "09.3J": {
+      "nome": "nome_pagador",
+      "posicao_inicio": 36,
+      "posicao_fim": 75,
+      "formato": "alfa"
+    },
+    "10.3J": {
+      "nome": "tipo_inscricao_beneficiario",
+      "posicao_inicio": 76,
+      "posicao_fim": 76,
+      "formato": "num"
+    },
+    "11.3J": {
+      "nome": "inscricao_beneficiario",
+      "posicao_inicio": 77,
+      "posicao_fim": 91,
+      "formato": "num"
+    },
+    "12.3J": {
+      "nome": "nome_beneficiario",
+      "posicao_inicio": 92,
+      "posicao_fim": 131,
+      "formato": "alfa"
+    },
+    "13.3J": {
+      "nome": "tipo_inscricao_sacador",
+      "posicao_inicio": 132,
+      "posicao_fim": 132,
+      "formato": "num",
+      "default": 0
+    },
+    "14.3J": {
+      "nome": "inscricao_sacador",
+      "posicao_inicio": 133,
+      "posicao_fim": 147,
+      "formato": "num",
+      "default": 0
+    },
+    "15.3J": {
+      "nome": "nome_sacador",
+      "posicao_inicio": 148,
+      "posicao_fim": 187,
+      "formato": "alfa",
+      "default": ""
+    },
+    "15.3J": {
+      "nome": "complemento_registro",
+      "posicao_inicio": 188,
+      "posicao_fim": 240,
+      "formato": "alfa",
+      "default": ""
+    }
+  }
+}
